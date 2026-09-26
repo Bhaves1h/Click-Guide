@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>ClickGuide</title>
+  <link rel="stylesheet" href="popup.css">
+</head>
+<body>
+  <!-- Header -->
+  <header class="cg-header">
+    <div class="cg-brand">
+      <div class="cg-logo-icon">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="#0d1117">
+          <path d="M4 2l16 12-7 1 4 7-3 1-4-7-6 5V2z"/>
+        </svg>
+      </div>
+      <span class="cg-brand-text">ClickGuide</span>
+    </div>
+
+    <div class="cg-header-actions">
+      <!-- Language Toggle -->
+      <div class="cg-lang-toggle" role="group" aria-label="Language selection">
+        <button class="cg-lang-btn active" id="btn-lang-en">EN</button>
+        <button class="cg-lang-btn" id="btn-lang-hi">हिन्दी</button>
+      </div>
+
+      <!-- Settings Toggle -->
+      <button class="cg-btn-icon" id="btn-settings-toggle" title="Settings (Optional Gemini Key)">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <circle cx="12" cy="12" r="3"/>
+          <path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"/>
+        </svg>
+      </button>
+    </div>
+  </header>
+
+  <!-- Collapsible Settings Drawer -->
+  <div class="cg-settings-drawer" id="settings-drawer">
+    <div class="cg-settings-title">
+      <span>AI Rephrasing (Optional)</span>
+    </div>
+    <p class="cg-settings-hint">
+      ClickGuide works 100% without any API key. Optionally add a Gemini API key to rephrase narration dynamically.
+    </p>
+    <input
+      type="password"
+      class="cg-settings-input"
+      id="gemini-api-key"
+      placeholder="Paste Gemini API Key (Optional)..."
+    />
+  </div>
+
+  <!-- Search Input -->
+  <section class="cg-search-section">
+    <div class="cg-search-box">
+      <svg class="cg-search-icon" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <circle cx="11" cy="11" r="8"/>
+        <line x1="21" y1="21" x2="16.65" y2="16.65"/>
+      </svg>
+      <input
+        type="text"
+        class="cg-search-input"
+        id="search-input"
+        placeholder="What do you want to do?"
+        autocomplete="off"
+      />
+    </div>
+  </section>
+
+  <!-- Quick-Pick Chips -->
+  <section class="cg-chips-section">
+    <div class="cg-section-label" id="chips-label">Available verified tasks:</div>
+    <div class="cg-chips-row">
+      <button class="cg-chip" data-flow-id="create-repo" id="chip-create-repo">
+        <span>📦 Create your first repository</span>
+        <span class="cg-chip-arrow">&rarr;</span>
+      </button>
+      <button class="cg-chip" data-flow-id="open-pr" id="chip-open-pr">
+        <span>🔀 Open your first pull request</span>
+        <span class="cg-chip-arrow">&rarr;</span>
+      </button>
+    </div>
+  </section>
+
+  <!-- Dynamic Result / Fallback Section -->
+  <div id="result-container">
+    <div class="cg-result-card" id="match-card">
+      <div class="cg-result-badge">
+        <svg width="10" height="10" viewBox="0 0 24 24" fill="currentColor">
+          <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/>
+        </svg>
+        <span id="match-badge">Matched Flow</span>
+      </div>
+      <div class="cg-result-title" id="match-title">Create your first repository</div>
+      <div class="cg-result-desc" id="match-desc">
+        Set up a new GitHub repository with a README and public visibility in 5 guided steps.
+      </div>
+    </div>
+  </div>
+
+  <!-- Start Guide CTA -->
+  <button class="cg-btn-start" id="btn-start-guide">
+    <span>Start guide on GitHub</span>
+    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+      <line x1="5" y1="12" x2="19" y2="12"/>
+      <polyline points="12 5 19 12 12 19"/>
+    </svg>
+  </button>
+
+  <!-- Warning when tab is not on github.com -->
+  <div class="cg-tab-warning" id="tab-warning">
+    ⚠️ Please switch to a <strong>github.com</strong> tab to launch this walkthrough.
+  </div>
+
+  <!-- Scripts -->
+  <script src="../flows.js"></script>
+  <script src="../matcher.js"></script>
+  <script src="popup.js"></script>
+</body>
+</html>

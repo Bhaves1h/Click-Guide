@@ -1,0 +1,292 @@
+/* ClickGuide Live Overlay & Virtual Cursor Styles */
+
+:root {
+  --cg-primary: #3fb950;
+  --cg-primary-glow: rgba(63, 185, 80, 0.4);
+  --cg-bg: #0d1117;
+  --cg-surface: #161b22;
+  --cg-border: rgba(240, 246, 252, 0.15);
+  --cg-text: #f0f6fc;
+  --cg-muted: #8b949e;
+}
+
+/* 1. Element Highlight Ring */
+.clickguide-highlight-target {
+  outline: 3px solid var(--cg-primary) !important;
+  outline-offset: 4px !important;
+  box-shadow: 0 0 25px var(--cg-primary-glow), inset 0 0 15px rgba(63, 185, 80, 0.15) !important;
+  border-radius: 6px !important;
+  transition: all 0.3s ease-in-out !important;
+  animation: clickguide-pulse-ring 2s infinite ease-in-out !important;
+  position: relative !important;
+  z-index: 2147483640 !important;
+}
+
+@keyframes clickguide-pulse-ring {
+  0% {
+    outline-color: #3fb950;
+    box-shadow: 0 0 15px rgba(63, 185, 80, 0.4);
+  }
+  50% {
+    outline-color: #56d364;
+    box-shadow: 0 0 35px rgba(86, 211, 100, 0.7);
+  }
+  100% {
+    outline-color: #3fb950;
+    box-shadow: 0 0 15px rgba(63, 185, 80, 0.4);
+  }
+}
+
+/* 2. Gliding Virtual Ghost Cursor */
+#clickguide-cursor {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 24px;
+  height: 24px;
+  pointer-events: none;
+  z-index: 2147483645;
+  transition: transform 0.9s cubic-bezier(0.22, 1, 0.36, 1);
+  will-change: transform;
+}
+
+.clickguide-cursor-wrapper {
+  position: relative;
+  transform: translate(-4px, -4px);
+}
+
+.clickguide-cursor-pointer {
+  width: 28px;
+  height: 28px;
+  filter: drop-shadow(0 4px 12px rgba(0, 0, 0, 0.8));
+}
+
+.clickguide-cursor-pulse {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  background: rgba(63, 185, 80, 0.4);
+  animation: clickguide-ripple 1.5s infinite ease-out;
+}
+
+@keyframes clickguide-ripple {
+  0% {
+    transform: scale(0.6);
+    opacity: 0.9;
+  }
+  100% {
+    transform: scale(2.2);
+    opacity: 0;
+  }
+}
+
+.clickguide-action-pill {
+  position: absolute;
+  left: 28px;
+  top: 2px;
+  background: #3fb950;
+  color: #0d1117;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  font-size: 11px;
+  font-weight: 700;
+  padding: 3px 8px;
+  border-radius: 9999px;
+  white-space: nowrap;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.5);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+/* 3. Floating Guidance Box / Tooltip */
+#clickguide-guidance-box {
+  position: fixed;
+  bottom: 28px;
+  right: 28px;
+  width: 360px;
+  max-width: calc(100vw - 40px);
+  background: #0d1117;
+  color: #f0f6fc;
+  border: 1px solid rgba(240, 246, 252, 0.2);
+  border-radius: 14px;
+  padding: 18px;
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.75), 0 0 0 1px rgba(255, 255, 255, 0.05);
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  z-index: 2147483646;
+  backdrop-filter: blur(12px);
+  animation: clickguide-slide-in 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+@keyframes clickguide-slide-in {
+  from {
+    opacity: 0;
+    transform: translateY(20px) scale(0.96);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+.clickguide-box-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 12px;
+  padding-bottom: 10px;
+  border-bottom: 1px solid rgba(240, 246, 252, 0.1);
+}
+
+.clickguide-badge-row {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.clickguide-brand-tag {
+  font-size: 11px;
+  font-weight: 700;
+  color: #3fb950;
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}
+
+.clickguide-step-pill {
+  background: rgba(63, 185, 80, 0.15);
+  color: #3fb950;
+  border: 1px solid rgba(63, 185, 80, 0.3);
+  font-size: 11px;
+  font-weight: 600;
+  padding: 2px 7px;
+  border-radius: 9999px;
+  font-mono;
+}
+
+.clickguide-lang-btn {
+  background: #161b22;
+  border: 1px solid rgba(240, 246, 252, 0.15);
+  color: #8b949e;
+  border-radius: 6px;
+  font-size: 11px;
+  font-weight: 600;
+  padding: 2px 8px;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.clickguide-lang-btn:hover {
+  color: #f0f6fc;
+  border-color: rgba(240, 246, 252, 0.3);
+}
+
+.clickguide-box-title {
+  font-size: 16px;
+  font-weight: 700;
+  line-height: 1.3;
+  margin-bottom: 6px;
+  color: #ffffff;
+}
+
+.clickguide-box-desc {
+  font-size: 13px;
+  line-height: 1.5;
+  color: #8b949e;
+  margin-bottom: 16px;
+}
+
+.clickguide-box-footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+}
+
+.clickguide-btn {
+  font-family: inherit;
+  font-size: 12px;
+  font-weight: 600;
+  padding: 7px 14px;
+  border-radius: 8px;
+  border: none;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  transition: all 0.2s;
+}
+
+.clickguide-btn-primary {
+  background: #3fb950;
+  color: #0d1117;
+}
+
+.clickguide-btn-primary:hover {
+  background: #4ac263;
+  box-shadow: 0 0 15px rgba(63, 185, 80, 0.4);
+}
+
+.clickguide-btn-secondary {
+  background: #21262d;
+  color: #c9d1d9;
+  border: 1px solid rgba(240, 246, 252, 0.15);
+}
+
+.clickguide-btn-secondary:hover {
+  background: #30363d;
+  color: #ffffff;
+}
+
+.clickguide-btn-secondary:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+}
+
+.clickguide-btn-danger {
+  background: transparent;
+  color: #f85149;
+  border: 1px solid rgba(248, 81, 73, 0.2);
+}
+
+.clickguide-btn-danger:hover {
+  background: rgba(248, 81, 73, 0.15);
+  border-color: rgba(248, 81, 73, 0.4);
+}
+
+/* 4. Honest Fallback Notice Card */
+#clickguide-fallback-card {
+  position: fixed;
+  bottom: 28px;
+  right: 28px;
+  width: 360px;
+  max-width: calc(100vw - 40px);
+  background: #161b22;
+  border: 1px solid #d29922;
+  border-radius: 14px;
+  padding: 18px;
+  color: #f0f6fc;
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.8), 0 0 20px rgba(210, 153, 34, 0.25);
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  z-index: 2147483647;
+}
+
+.clickguide-fallback-header {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  color: #d29922;
+  font-weight: 700;
+  font-size: 14px;
+  margin-bottom: 8px;
+}
+
+.clickguide-fallback-msg {
+  font-size: 13px;
+  line-height: 1.5;
+  color: #c9d1d9;
+  margin-bottom: 14px;
+}

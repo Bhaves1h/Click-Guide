@@ -1,0 +1,46 @@
+{
+  "manifest_version": 3,
+  "name": "ClickGuide — Stop reading tutorials. Start clicking.",
+  "version": "1.0.0",
+  "description": "AI visual assistant for Chrome. Glides across GitHub, highlights where to click, and narrates in English or Hindi.",
+  "permissions": [
+    "activeTab",
+    "scripting",
+    "storage"
+  ],
+  "host_permissions": [
+    "https://github.com/*"
+  ],
+  "action": {
+    "default_popup": "popup/popup.html",
+    "default_title": "ClickGuide",
+    "default_icon": {
+      "16": "icons/icon16.png",
+      "48": "icons/icon48.png",
+      "128": "icons/icon128.png"
+    }
+  },
+  "content_scripts": [
+    {
+      "matches": ["https://github.com/*"],
+      "js": ["flows.js", "content/content.js"],
+      "css": ["content/overlay.css"],
+      "run_at": "document_idle"
+    }
+  ],
+  "web_accessible_resources": [
+    {
+      "resources": [
+        "flows.js",
+        "matcher.js",
+        "content/overlay.css"
+      ],
+      "matches": ["https://github.com/*"]
+    }
+  ],
+  "icons": {
+    "16": "icons/icon16.png",
+    "48": "icons/icon48.png",
+    "128": "icons/icon128.png"
+  }
+}
